@@ -1,16 +1,14 @@
-from pydantic import BaseModel, Field
 from typing import List
-from backend.app.models import User, Post
+from backend.app.analyzer import warrants
+
 
 class Parser(warrants):
-    warrants: List[str] = Field(description="List of legal warranties extracted from the contract.")
-    if 
+    name: str
+    warrants: List[str]
+    description: str
 
 
-    class Config:
-        orm_mode = True
-
-    def __init__(self, warrants: List[str]):
+    def __init__(self, name: str, warrants: List[str], description: str) -> None:
+        self.name = name
         self.warrants = warrants
-
-        super().__init__()
+        self.description = description

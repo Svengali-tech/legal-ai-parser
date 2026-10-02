@@ -5,7 +5,7 @@ import os
 BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
 
 st.set_page_config(layout="wide", page_title="AI Legal Contract Diff")
-st.title("⚖️ AI Legal Contract Diff Analyzer")
+st.title("AI Legal Contract Diff Analyzer")
 st.write("Upload two versions of a contract to identify semantic changes.")
 
 col1, col2 = st.columns(2)
@@ -33,7 +33,7 @@ if st.button("Analyze Semantic Differences", type="primary"):
                     
                     # Display structured data neatly
                     for change in data["changes"]:
-                        with st.expander(f"⚠️ {change['clause']} Changes ({change['severity']} Risk)"):
+                        with st.expander(f"**{change['clause']}** {change['clause']} Changes ({change['severity']} Risk)"):
                             c1, c2 = st.columns(2)
                             c1.text_area("Version 1 (Original)", change["v1_text"], height=100)
                             c2.text_area("Version 2 (Modified)", change["v2_text"], height=100)
