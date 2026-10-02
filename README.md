@@ -1,3 +1,9 @@
+Currenly a very basic version of a AI prod legal parser
+
+please bare with me
+
+Plans:
+
 [User Interface] ──(Upload V1 & V2 PDFs)──> [FastAPI Backend]
                                                                                  ▼
 [Parsers & Chunkers]                [Vector DB: Pinecone/Chroma]            [Asynchronous Queue]
@@ -7,7 +13,6 @@
 [LLM Reasoning Layer]
 • Compare semantic changes
 • Highlight missing liabilities
-
 
 Step-by-Step Implementation Guide
 Phase 1: Robust PDF Parsing & Clause Chunking (The Data Layer)

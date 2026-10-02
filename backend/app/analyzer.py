@@ -4,7 +4,7 @@ from typing import List
 from fastapi import UploadFile, File
 
 forms = {
-    "name": "NYPD Arrest Warrant",
+    "name": "string",
     "warrants": ["warrant1", "warrant2"]
 }
 
