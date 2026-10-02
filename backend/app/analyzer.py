@@ -1,5 +1,7 @@
 from backend.app.parser import Parser
-
+from backend.app.analyzer import warrants
+from typing import List
+from fastapi import UploadFile, File
 
 forms = {
     "name": "NYPD Arrest Warrant",
