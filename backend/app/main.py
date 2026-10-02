@@ -7,8 +7,10 @@ from typing import List
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import Request
+import pymupdf
+from starlette.concurrency import run_in_threadpool
 
-app = FastAPI()
+app = FastAPI(title="legal-ai-parser")
 
 app.add_middleware(
     CORSMiddleware,
@@ -58,9 +60,6 @@ app.add_api_route("/health", lambda: {"status": "healthy"}, methods=["GET, POST,
 Run: uvicorn main:app --host 0.0.0.0 --port 8000
 
 
-app = FastAPI(title="legal-ai-parser")
-
-
 @app.get("/health")
 async def health():
     return {"status": "healthy"}
@@ -79,16 +78,25 @@ async def analyze(
     name_v1 = file_v1.filename
     name_v2 = file_v2.filename
 
-    # TODO: parse the files
+    content_v1 = await file_v1.read()
+    content_v2 = await file_v2.read()
+
+    def parse_files():
+        texts = []
+        for content in (content_v1, content_v2):
+            with pymupdf.open(stream=content, filetype="pdf") as document:
+                texts.append("\n".join(page.get_text() for page in document))
+        return texts
+
+    text_v1, text_v2 = await run_in_threadpool(parse_files)
 
     return {
         "summary": str(f"Analyzed {name_v1} and {name_v2} for semantic differences."),
         "changes": [
-            {"clause": str("Legal Warrant Clause"), "severity": "dictionary"},
-            {"v1_text": "str"},
-            {"v2_text": "str"},
-            {"analysis": "str"}
-            
+            {"clause": str("Legal Warrant Clause"), "severity": "high"},
+            {"v1_text": text_v1},
+            {"v2_text": text_v2},
+            {"analysis": "detailed_analysis_text"}
         ]   
     }
 
